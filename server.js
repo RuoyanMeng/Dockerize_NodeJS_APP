@@ -1,11 +1,10 @@
-'use strict';
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
 // Constants
-const PORT = 3000;
-const db = "mongodb://localhost:27017/db";
+const PORT = process.env.PORT || 3000;
+const db = "mongodb://mongo:27017/db";
 
 
 // Connect with mongoDB
@@ -38,5 +37,4 @@ app.use('/groups', groupRouter);
 app.use('/projects',projectRouter)
 
 
-app.listen(PORT, 'localhost');
-console.log(`Running on http://localhost:${PORT}`);
+app.listen(PORT, ()=>{console.log(`Running on http://localhost:${PORT}`);});

@@ -25,7 +25,7 @@ router.route('/group/:id').get((req, res) => {
 
 
 router.route('/group/:id').put((req, res) => {
-    Group.findByIdAndUpdate(req.params.id, req.body)
+    Group.findByIdAndUpdate(req.params.id, req.body, { upsert: true, new: true})
       .then(group => res.status(200).json({message:"Group successfully updated", id:group._id, name:group.name, owner:group.owner}))
       .catch(err => res.status(400).json('Error: ' + err));
   });
@@ -39,8 +39,8 @@ router.route('/group/:id').delete((req, res) => {
 router.route('/group/:groupId/:userId').put((req, res) => {
     let groupId = req.params.groupId
     let userId = req.params.userId
-    User.findByIdAndUpdate(userId, {$push:{groups:groupId}}, {"new": true, "upsert": true })
-      .then(user => res.status(200).json({message:"User successfully added into a group", id:user._id}))
+    User.findByIdAndUpdate(userId, {$push:{groups:groupId}}, {new: true, upsert: true })
+      .then(user => res.status(200).json({message:"User successfully added into a group", id:groupId}))
       .catch(err => res.status(400).json('Error: ' + err));
   });
 

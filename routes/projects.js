@@ -23,13 +23,13 @@ router.route('/project').post((req, res) => {
 
 router.route('/project/:id').get((req, res) => {
     Project.findById(req.params.id)
-      .then(project => res.status(200).json({id:project._id, name:project.name, description:project.owner,type:project.type,members:project.members}))
+      .then(project => res.status(200).json({id:project._id, name:project.name, description:project.description,type:project.type,members:project.members}))
       .catch(err => res.status(400).json('Error: ' + err));
   });
 
 router.route('/project/:id').put((req, res) => {
-    Group.findByIdAndUpdate(req.params.id, req.body)
-      .then(project => res.status(200).json({message:"Project successfully updated", id:project._id, name:project.name, description:project.owner,type:project.type,members:project.members}))
+    Project.findByIdAndUpdate(req.params.id, req.body, { upsert: true, new: true})
+      .then(project => res.status(200).json({message:"Project successfully updated", id:project._id, name:project.name, description:project.description,type:project.type,members:project.members}))
       .catch(err => res.status(400).json('Error: ' + err));
   });
 

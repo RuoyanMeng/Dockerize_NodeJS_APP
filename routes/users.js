@@ -30,12 +30,24 @@ router.route('/user/:id').get((req, res) => {
 
 router.route('/users').get((req, res) => {
     User.find({},{_id:1})
-      .then(users => res.status(200).json(users)) 
+      .then(user=> {
+        let ids = [];
+        let i = 0;
+        console.log(user)
+        for (item of user){
+          ids[i]={id:item._id}
+          i=i+1;
+          console.log(item)
+        }
+      
+        return res.status(200).json(ids)
+      })
+      // .then(users => res.status(200).json(users)) 
       .catch(err => res.status(400).json('Error: ' + err));
   });
 
 router.route('/user/:id').put((req, res) => {
-    User.findByIdAndUpdate(req.params.id, req.body)
+    User.findByIdAndUpdate(req.params.id, req.body, { upsert: true, new: true})
       .then(user => res.status(200).json({message:"User successfully updated", id:user._id,name:user.name,email:user.email}))
       .catch(err => res.status(400).json('Error: ' + err));
   });

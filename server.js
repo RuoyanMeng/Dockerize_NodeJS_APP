@@ -8,7 +8,7 @@ const db = "mongodb://mongo:27017/db";
 
 
 // Connect with mongoDB
-mongoose.connect(db, { useNewUrlParser: true, useCreateIndex: true }
+mongoose.connect(db, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false  }
     );
 const connection = mongoose.connection;
 connection.once('open', () => {
@@ -32,9 +32,9 @@ const usersRouter = require('./routes/users');
 const groupRouter = require('./routes/groups');
 const projectRouter = require('./routes/projects')
 
-app.use('/users', usersRouter);
-app.use('/groups', groupRouter);
-app.use('/projects',projectRouter)
+app.use('/', usersRouter);
+app.use('/', groupRouter);
+app.use('/',projectRouter)
 
 
 app.listen(PORT, ()=>{console.log(`Running on http://localhost:${PORT}`);});
